@@ -1,0 +1,22 @@
+<div *ngIf="photo" class="card p-1">
+  <img
+    src="https://picsum.photos/200/300?random={{ random }}"
+    class="card-img-top"
+  />
+  <div class="card-body px-0 py-1">
+    <p class="fs-7 fw-medium">{{ photo.title | truncate }}</p>
+  </div>
+  <div
+    class="card-footer d-flex justify-content-between p-0 bg-white border-0 gap-1"
+  >
+    <button (click)="addFav(photo)" class="btn btn-success btn-sm flex-grow-1">
+      Like
+    </button>
+    <button
+      class="btn btn-danger btn-sm flex-grow-1"
+      (click)="delete(photo.id)"
+    >
+      Delete
+    </button>
+  </div>
+</div>

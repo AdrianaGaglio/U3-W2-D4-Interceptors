@@ -1,0 +1,8 @@
+<app-header></app-header>
+<div class="container p-3">
+  <div class="row row-cols-5 g-3">
+    <div class="col" *ngFor="let photo of photos">
+      <app-card [id]="photo.id" (onDeletion)="update($event)"></app-card>
+    </div>
+  </div>
+</div>
