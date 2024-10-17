@@ -8,6 +8,7 @@ import {
   Observable,
   Subject,
   take,
+  tap,
   throwError,
 } from 'rxjs';
 import { iResponse } from '../interfaces/iresponse';
@@ -18,7 +19,7 @@ import { iResponse } from '../interfaces/iresponse';
 export class PhotoService {
   constructor(private http: HttpClient) {}
 
-  apiUrl = 'https://jsonplaceholder.typicode.com/photoss';
+  apiUrl = 'https://jsonplaceholder.typicode.com/photos';
 
   photos$ = new BehaviorSubject<iPhoto[]>([]);
   favourite$ = new Subject<iPhoto>();
@@ -51,12 +52,15 @@ export class PhotoService {
   }
 
   deletePhoto(id: number): Observable<iPhoto> {
-    let tempArray = this.photos$.value;
-    console.log(tempArray.length);
-    tempArray = tempArray.filter((item) => item.id !== id);
-    console.log(tempArray.length);
-    this.photos$.next(tempArray);
-    return this.http.delete<iPhoto>(`${this.apiUrl}/${id}`);
+    return this.http.delete<iPhoto>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        let tempArray = this.photos$.getValue();
+        console.log(tempArray.length);
+        tempArray = tempArray.filter((item) => item.id !== id);
+        console.log(tempArray.length);
+        this.photos$.next(tempArray);
+      })
+    );
   }
 
   addToFav(photo: iPhoto) {

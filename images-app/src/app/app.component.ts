@@ -15,19 +15,17 @@ export class AppComponent implements OnInit {
   message!: string;
 
   ngOnInit() {
+    // spostare subscribe nel service e qui iscriversi solo al BehaviorSubject
     this.photoSvc.getPhotos1().subscribe({
       next: (photos) => {
         this.isError = false;
         this.photos = photos;
         this.photoSvc.photos$.next(this.photos);
       },
-      error: (error) => {
-        // this.isError = true;
-      },
     });
   }
 
   update(event: boolean) {
-    this.photoSvc.photos$.subscribe((photos) => this.photos);
+    this.photoSvc.photos$.subscribe((photos) => (this.photos = photos));
   }
 }

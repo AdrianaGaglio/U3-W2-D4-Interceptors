@@ -5,7 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardComponent } from './components/card/card.component';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,7 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
   declarations: [AppComponent, CardComponent, TruncatePipe, HeaderComponent],
   imports: [BrowserModule, AppRoutingModule, NgbModule],
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
